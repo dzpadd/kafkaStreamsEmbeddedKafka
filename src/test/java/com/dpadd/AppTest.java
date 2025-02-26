@@ -20,7 +20,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 @SpringBootTest(properties = {
-        "spring.kafka.bootstrap-servers=${spring.embedded.kafka.brokers}"
+        // connect to embedded kafka instead of a real one
+        "spring.kafka.bootstrap-servers=${spring.embedded.kafka.brokers}",
+
+        // suppress most of embedded kafka network connection logs
+        "logging.level.kafka=WARN",
+        "logging.level.state.change.logger=WARN"
 })
 @EmbeddedKafka(kraft = true, partitions = 1, topics = {"input-topic", OUTPUT_TOPIC})
 class AppTest {
@@ -48,6 +53,9 @@ class AppTest {
         assertThat(records.count()).isEqualTo(3);
         assertThat(records)
                 .extracting(ConsumerRecord::key, ConsumerRecord::value)
-                .containsExactly(tuple(key, "Hello"), tuple(key, "Kafka"), tuple(key, "Streams"));
+                .containsExactly(
+                        tuple(key, "Hello"),
+                        tuple(key, "Kafka"),
+                        tuple(key, "Streams"));
     }
 }
