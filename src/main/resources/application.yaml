@@ -1,0 +1,7 @@
+spring:
+  kafka:
+    streams:
+      application-id: kafka-streams-app
+    bootstrap-servers: localhost:9092
+
+logging.level.org.apache.kafka: WARN

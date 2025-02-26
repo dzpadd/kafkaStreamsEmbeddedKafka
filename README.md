@@ -1,1 +1,2 @@
-# kafkaStreamsEmbeddedKafka
+# Spring application demonstrating usage of EmbeddedKafka for testing Kafka Streams apps
+Demo application reads messages from input topic, split String value into words and writes a message per each word into an output topic, preserving the same key. 
